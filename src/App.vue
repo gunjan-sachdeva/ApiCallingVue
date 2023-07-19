@@ -1,26 +1,62 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>Call Api</h1>
+  <!-- <p v-for='item in list' :key="item">
+  {{item.id}} --- {{item.email}} ---
+
+  {{item.first_name}}
+  </p> -->
+
+  <ul class="item" v-for="item in list" :key="item.id">
+  <li>
+  {{item.id}}
+  </li>
+  <li>
+  {{item.email}}
+  </li>
+  <li>
+  {{item.first_name}}
+  </li>
+  <li>
+<img :src="item.avatar" />
+  </li>
+  
+  </ul>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import axios from 'axios';
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+ data()
+ {
+  return{
+    list:[]
   }
+ },
+ async mounted()
+ {
+  let result=await axios.get("https://reqres.in/api/users?page=1")
+  console.warn("api data",result.data.data);
+  this.list=result.data.data
+ }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<style scoped>
+.item{
+  display: flex;
+}
+.item img{
+  width: 50px;
+}
+.item li{
+  display: inline-block;
+  width: 180px;
+  border: 1px solid red;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  padding: 5px;
 }
 </style>
+
+
